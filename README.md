@@ -1,6 +1,6 @@
 # Schaltpläne - Elektrische Schaltpläne für PV-Anlagen
 
-[![Streamlit App](https://img.shields.io/badge/🌐_Streamlit-App_starten-FF4B4B?style=for-the-badge)](http://localhost:8501)
+[![Streamlit App](https://img.shields.io/badge/🌐_Streamlit-App_starten-FF4B4B?style=for-the-badge)](https://eegschaltplaene.streamlit.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 Projektsammlung für elektrische Schaltpläne, insbesondere einpolige Schaltpläne für Hausanschlüsse mit PV-Anlagen und Stromspeichern zur Anmeldung beim Netzbetreiber.
@@ -9,12 +9,24 @@ Projektsammlung für elektrische Schaltpläne, insbesondere einpolige Schaltplä
 
 **Neu:** Interaktive Web-Anwendung zur einfachen Erstellung von Schaltplänen!
 
+### Online-Version (empfohlen)
+
+Nutze die gehostete Version ohne Installation:
+
+**👉 [https://eegschaltplaene.streamlit.app/](https://eegschaltplaene.streamlit.app/)**
+
+### Lokale Version
+
+Für Offline-Nutzung oder Entwicklung:
+
 ```bash
-# Streamlit-App starten
+# Streamlit-App lokal starten
 uv run streamlit run app.py
 ```
 
 Öffne dann [http://localhost:8501](http://localhost:8501) im Browser.
+
+---
 
 **Features der Web-App:**
 - ⚙️ Intuitive Parameter-Eingabe über Seitenleiste

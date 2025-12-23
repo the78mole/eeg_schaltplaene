@@ -39,12 +39,22 @@ f2_nennstrom = st.sidebar.number_input(
     help="Nennstrom des Leitungsschutzschalters F2"
 )
 
-f2_charakteristik = st.sidebar.selectbox(
+f2_charakteristik_auswahl = st.sidebar.selectbox(
     "F2 Charakteristik",
-    options=["B", "C", "D", "E"],
-    index=3,
+    options=["E", "Cs", "Andere..."],
+    index=0,  # Standard: E
     help="Auslösecharakteristik des Leitungsschutzschalters"
 )
+
+# Wenn "Andere..." gewählt wurde, Freitextfeld anzeigen
+if f2_charakteristik_auswahl == "Andere...":
+    f2_charakteristik = st.sidebar.text_input(
+        "Bitte Charakteristik eingeben",
+        value="B",
+        help="Geben Sie die gewünschte Charakteristik ein"
+    )
+else:
+    f2_charakteristik = f2_charakteristik_auswahl
 
 st.sidebar.subheader("Zähler")
 z1_zaehler_nr = st.sidebar.text_input(
