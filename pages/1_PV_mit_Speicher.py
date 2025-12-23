@@ -11,7 +11,7 @@ from pathlib import Path
 from schaltplaene.templates.pv_speicher_system_ueberschuss import PvSpeicherSystemUeberschuss
 
 st.title("🔋 PV-Anlage mit Speicher")
-st.markdown("Generieren Sie einen Schaltplan für eine PV-Anlage mit Batteriespeicher.")
+st.markdown("Generiere einen Schaltplan für eine PV-Anlage mit Batteriespeicher.")
 
 # Sidebar für Parameter
 st.sidebar.header("⚙️ Parameter")
@@ -59,7 +59,7 @@ if f2_charakteristik_auswahl == "Andere...":
     f2_charakteristik = st.sidebar.text_input(
         "Bitte Charakteristik eingeben",
         value="B",
-        help="Geben Sie die gewünschte Charakteristik ein"
+        help="Gib die gewünschte Charakteristik ein"
     )
 else:
     f2_charakteristik = f2_charakteristik_auswahl
@@ -223,4 +223,4 @@ if st.session_state.get('generated_mit_speicher', False):
         )
 
 else:
-    st.info("👈 Passen Sie die Parameter in der Seitenleiste an und klicken Sie auf 'Schaltplan generieren'")
+    st.info("👈 Passe die Parameter in der Seitenleiste an und klicke auf 'Schaltplan aktualisieren'")

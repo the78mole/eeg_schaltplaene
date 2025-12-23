@@ -44,4 +44,4 @@ st.set_page_config(
 # Führe die ausgewählte Seite aus
 pg.run()
 
-st.info("👈 Wählen Sie ein Template in der Seitenleiste aus!")
+st.info("👈 Wähle ein Template in der Seitenleiste aus!")

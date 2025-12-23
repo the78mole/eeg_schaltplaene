@@ -6,7 +6,7 @@ st.title("⚡ Schaltplan Generator für PV-Anlagen")
 st.markdown("""
 Willkommen beim interaktiven Schaltplan-Generator!
 
-Wählen Sie in der Seitenleiste ein Template aus, um loszulegen.
+Wähle in der Seitenleiste ein Template aus, um loszulegen.
 
 ### Verfügbare Templates:
 - **PV-Anlage mit Speicher** - Komplettes System mit Batteriespeicher
