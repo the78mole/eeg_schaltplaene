@@ -1,0 +1,58 @@
+[project]
+name = "schaltplaene"
+version = "0.1.0"
+description = "Elektrische Schaltpläne für PV-Anlagen und Stromspeicher"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Elektro Glaser", email = "info@elektro-glaser.de"}
+]
+keywords = ["electrical", "schematics", "pv", "solar", "schemdraw", "circuit-diagrams"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+dependencies = [
+    "schemdraw>=0.19",
+    "matplotlib>=3.8.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/the78mole/eeg_schaltplaene"
+Repository = "https://github.com/the78mole/eeg_schaltplaene"
+Issues = "https://github.com/the78mole/eeg_schaltplaene/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "ruff>=0.1.0",
+    "ipython>=8.12.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
