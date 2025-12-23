@@ -1,6 +1,26 @@
 # Schaltpläne - Elektrische Schaltpläne für PV-Anlagen
 
+[![Streamlit App](https://img.shields.io/badge/🌐_Streamlit-App_starten-FF4B4B?style=for-the-badge)](http://localhost:8501)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
 Projektsammlung für elektrische Schaltpläne, insbesondere einpolige Schaltpläne für Hausanschlüsse mit PV-Anlagen und Stromspeichern zur Anmeldung beim Netzbetreiber.
+
+## 🌐 Streamlit Web-App
+
+**Neu:** Interaktive Web-Anwendung zur einfachen Erstellung von Schaltplänen!
+
+```bash
+# Streamlit-App starten
+uv run streamlit run app.py
+```
+
+Öffne dann [http://localhost:8501](http://localhost:8501) im Browser.
+
+**Features der Web-App:**
+- ⚙️ Intuitive Parameter-Eingabe über Seitenleiste
+- 📊 Live-Vorschau des Schaltplans (SVG)
+- 💾 Download als SVG oder PNG
+- 🔋 Templates für PV mit/ohne Speicher
 
 ## Übersicht
 
@@ -8,6 +28,7 @@ Dieses Projekt verwendet [Schemdraw](https://schemdraw.readthedocs.io/) zur prog
 
 ## Features
 
+- **🌐 Web-App** - Streamlit-Oberfläche für einfache Bedienung
 - **Vorgefertigte Komponenten** - 12+ elektrotechnische Komponenten (Zähler, Schalter, Wechselrichter, etc.)
 - **Templates** - Fertige Schaltplan-Vorlagen für typische Anwendungsfälle
 - **Deutsche Bezeichnungen** - Alle Komponenten mit deutschen Fachbegriffen
