@@ -1,0 +1,14 @@
+[[pages]]
+path = "app.py"
+name = "Start"
+icon = "🏠"
+
+[[pages]]
+path = "pages/1_PV_mit_Speicher.py"
+name = "PV mit Speicher"
+icon = "🔋"
+
+[[pages]]
+path = "pages/2_PV_ohne_Speicher.py"
+name = "PV ohne Speicher"
+icon = "☀️"
