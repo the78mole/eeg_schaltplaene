@@ -16,7 +16,6 @@ from schaltplaene.komponenten.netz import Netz
 from schaltplaene.komponenten.schmelzsicherung import Schmelzsicherung
 from schaltplaene.komponenten.leitungsschutzschalter import Leitungsschutzschalter
 from schaltplaene.komponenten.zaehler import Zaehler, ZaehlerPfeil
-from schaltplaene.komponenten import ComponentFlow
 from schaltplaene.komponenten.schalter import Schalter
 from schaltplaene.komponenten.enums import ComponentFlow
 from schaltplaene.komponenten.verbrauch import Verbrauch
@@ -134,14 +133,8 @@ class PvSystemUeberschuss:
             flow=ComponentFlow.FLOW_V
         ).at((3, netz_pos[1] + 8)))
         
-        # 6. Schalter (Netztrennung Q1)
-        d += (trennung := Leitungsschutzschalter(
-            bezeichnung="Q1",
-            flow=ComponentFlow.FLOW_V
-        ).at((3, netz_pos[1] + 10)))
-        
-        # 7. Sternpunkt (Verbindungspunkt)
-        sternpunkt_pos = (3, netz_pos[1] + 11.3)
+        # 7. Sternpunkt (Verbindungspunkt) - direkt nach P2, ohne Q1
+        sternpunkt_pos = (3, netz_pos[1] + 10)
         d += elm.Dot().at(sternpunkt_pos)
         
         # Von Sternpunkt nach rechts zum Haus
@@ -179,8 +172,7 @@ class PvSystemUeberschuss:
         d += elm.Line().at(hak.absanchors['end']).to(sls.absanchors['start'])
         d += elm.Line().at(sls.absanchors['end']).to(zaehler1.absanchors['start'])
         d += elm.Line().at(zaehler1.absanchors['end']).to(zaehler2.absanchors['start'])
-        d += elm.Line().at(zaehler2.absanchors['end']).to(trennung.absanchors['start'])
-        d += elm.Line().at(trennung.absanchors['end']).to(sternpunkt_pos)
+        d += elm.Line().at(zaehler2.absanchors['end']).to(sternpunkt_pos)
         d += elm.Line().at(sternpunkt_pos).to(schalter_haus.absanchors['start'])
         d += elm.Line().at(sternpunkt_pos).to(schalter_wr.absanchors['start'])
         d += elm.Line().at(schalter_haus.absanchors['end']).to(haus.absanchors['W'])
