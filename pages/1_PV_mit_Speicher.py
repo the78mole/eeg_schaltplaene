@@ -5,6 +5,8 @@ import schemdraw
 from io import BytesIO
 from PIL import Image
 import streamlit.components.v1 as components
+import base64
+from pathlib import Path
 
 from schaltplaene.templates.pv_speicher_system_ueberschuss import PvSpeicherSystemUeberschuss
 
@@ -192,6 +194,31 @@ if st.session_state.get('generated', False):
         - **SVG**: Vektorgrafik, beliebig skalierbar
         - **PNG**: Rastergrafik, 300 DPI
         """)
+        
+        st.markdown("---")
+        st.markdown("**Sponsor:**")
+        
+        # Logo als Base64 einbetten für klickbaren Link
+        logo_path = Path("img/elektro-glaser-logo.svg")
+        if logo_path.exists():
+            with open(logo_path, "rb") as f:
+                logo_data = base64.b64encode(f.read()).decode()
+            st.markdown(
+                f'<div style="text-align: center;">'
+                f'<a href="https://e-glaser.de" target="_blank">'
+                f'<img src="data:image/svg+xml;base64,{logo_data}" width="180">'
+                f'</a>'
+                f'</div>',
+                unsafe_allow_html=True
+            )
+        st.markdown(
+            '<div style="text-align: center; font-size: 12px; margin-top: 5px;">'
+            '<a href="https://e-glaser.de" target="_blank" style="text-decoration: none; color: #666;">'
+            'Elektro-Glaser GmbH'
+            '</a>'
+            '</div>',
+            unsafe_allow_html=True
+        )
 
 else:
     st.info("👈 Passen Sie die Parameter in der Seitenleiste an und klicken Sie auf 'Schaltplan generieren'")
