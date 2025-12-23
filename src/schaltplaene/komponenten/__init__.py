@@ -2,7 +2,7 @@
 Wiederverwendbare elektrische Komponenten für Schaltpläne.
 """
 
-from .zaehler import Zaehler, ZaehlerPfeil, ZaehlerFlow, ZaehlerTarif
+from .zaehler import Zaehler, ZaehlerPfeil, ZaehlerTarif
 from .enums import ComponentFlow
 from .schalter import Schalter
 from .leitungsschutzschalter import Leitungsschutzschalter
@@ -20,7 +20,6 @@ from .pe_line import PELine, pe_line_between
 __all__ = [
     "Zaehler",
     "ZaehlerPfeil",
-    "ZaehlerFlow",
     "ZaehlerTarif",
     "Schalter",
     "ComponentFlow",

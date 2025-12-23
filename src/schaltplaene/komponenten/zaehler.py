@@ -7,6 +7,7 @@ import schemdraw
 import schemdraw.elements as elm
 from schemdraw.elements import Element
 from schemdraw import segments
+from .enums import ComponentFlow
 
 
 class ZaehlerPfeil(Enum):
@@ -15,12 +16,6 @@ class ZaehlerPfeil(Enum):
     ARROW_IN = 1     # Bezug (Pfeil nach oben)
     ARROW_OUT = 2    # Einspeisung (Pfeil nach unten)
     ARROW_BOTH = 3   # Zweirichtung (beide Pfeile)
-
-
-class ZaehlerFlow(Enum):
-    """Flussrichtung des Zählers."""
-    FLOW_V = 0  # Vertikal (Anschlüsse oben/unten)
-    FLOW_H = 1  # Horizontal (Anschlüsse links/rechts)
 
 
 class ZaehlerTarif(Enum):
@@ -42,18 +37,18 @@ class Zaehler(Element):
         info: Zusätzliche Information unter dem Bezeichner (z.B. Zählernummer, "EMS SmartMeter")
         einheit: Einheit für die Messung (z.B. "kWh", "Wh", "MWh")
         pfeil: Richtungspfeil (ZaehlerPfeil.ARROW_NONE, ARROW_IN, ARROW_OUT, ARROW_BOTH)
-        flow: Flussrichtung (ZaehlerFlow.FLOW_V für vertikal, FLOW_H für horizontal)
+        flow: Flussrichtung (ComponentFlow.FLOW_V für vertikal, FLOW_H für horizontal)
         tarif: Tarif-Option (ZaehlerTarif.TARIF_EINZEL oder TARIF_ZWEI)
         debug: Wenn True, werden rote Punkte an den Anchors gezeichnet
     """
     
     def __init__(self, bezeichnung: str = "Z", info: str = "", einheit: str = "kWh", 
                  pfeil: ZaehlerPfeil = ZaehlerPfeil.ARROW_NONE,
-                 flow: ZaehlerFlow = ZaehlerFlow.FLOW_V,
+                 flow: ComponentFlow = ComponentFlow.FLOW_V,
                  tarif: ZaehlerTarif = ZaehlerTarif.TARIF_EINZEL,
                  debug: bool = False, *args, **kwargs):
         # Fix für Schemdraw Auto-Rotation: Horizontale Zähler brauchen theta=0
-        if flow == ZaehlerFlow.FLOW_H and 'theta' not in kwargs:
+        if flow == ComponentFlow.FLOW_H and 'theta' not in kwargs:
             kwargs['theta'] = 0
         
         super().__init__(*args, **kwargs)
@@ -103,7 +98,7 @@ class Zaehler(Element):
             ausgang_y = hoehe/2 + schmale_hoehe
         
         # Anchors: abhängig von der Flussrichtung
-        if flow == ZaehlerFlow.FLOW_V:
+        if flow == ComponentFlow.FLOW_V:
             # Vertikal: Eingang unten, Ausgang oben
             self.anchors['in'] = (0, -hoehe/2)
             self.anchors['out'] = (0, ausgang_y)
@@ -120,7 +115,7 @@ class Zaehler(Element):
         pfeil_hoehe = 0.6
         pfeil_breite = 0.6
         
-        if flow == ZaehlerFlow.FLOW_V:
+        if flow == ComponentFlow.FLOW_V:
             # Vertikale Ausrichtung: Pfeile links vom Zähler
             pfeil_x_mitte = -breite/2 - 0.2
             
@@ -239,7 +234,7 @@ class Zaehler(Element):
         ))
         
         # Bezeichnung - Position abhängig vom Flow
-        if flow == ZaehlerFlow.FLOW_V:
+        if flow == ComponentFlow.FLOW_V:
             # Vertikal: Bezeichnung rechts vom Symbol
             self.segments.append(segments.SegmentText(
                 (breite/2 + 0.15, 0), bezeichnung, fontsize=10, align=('left', 'center')
@@ -276,30 +271,30 @@ if __name__ == "__main__":
     d += elm.Label().at((3, 6.5)).label("Zähler-Komponente: Konfigurationsoptionen", fontsize=16)
     
     # Reihe 1: FLOW_V Eintarif
-    z1 = Zaehler(bezeichnung="Z1", pfeil=ZaehlerPfeil.ARROW_IN, flow=ZaehlerFlow.FLOW_V, debug=True)
+    z1 = Zaehler(bezeichnung="Z1", pfeil=ZaehlerPfeil.ARROW_IN, flow=ComponentFlow.FLOW_V, debug=True)
     d += z1.at((1.5, 5.5))
     d += elm.Label().at((1.5, 4.5)).label("FLOW_V Ein", halign='center', fontsize=9)
     
-    d += Zaehler(bezeichnung="Z2", pfeil=ZaehlerPfeil.ARROW_BOTH, flow=ZaehlerFlow.FLOW_V, debug=True).at((4.5, 5.5))
+    d += Zaehler(bezeichnung="Z2", pfeil=ZaehlerPfeil.ARROW_BOTH, flow=ComponentFlow.FLOW_V, debug=True).at((4.5, 5.5))
     d += elm.Label().at((4.5, 4.5)).label("FLOW_V Zwei", halign='center', fontsize=9)
     
     # Reihe 2: FLOW_V Zweitarif
-    z3 = Zaehler(bezeichnung="Z3", pfeil=ZaehlerPfeil.ARROW_IN, flow=ZaehlerFlow.FLOW_V, tarif=ZaehlerTarif.TARIF_ZWEI, debug=True)
+    z3 = Zaehler(bezeichnung="Z3", pfeil=ZaehlerPfeil.ARROW_IN, flow=ComponentFlow.FLOW_V, tarif=ZaehlerTarif.TARIF_ZWEI, debug=True)
     d += z3.at((1.5, 3.5))
     d += elm.Label().at((1.5, 2.5)).label("FLOW_V HT/NT", halign='center', fontsize=9)
     
-    d += Zaehler(bezeichnung="Z4", pfeil=ZaehlerPfeil.ARROW_BOTH, flow=ZaehlerFlow.FLOW_V, tarif=ZaehlerTarif.TARIF_ZWEI, debug=True).at((4.5, 3.5))
+    d += Zaehler(bezeichnung="Z4", pfeil=ZaehlerPfeil.ARROW_BOTH, flow=ComponentFlow.FLOW_V, tarif=ZaehlerTarif.TARIF_ZWEI, debug=True).at((4.5, 3.5))
     d += elm.Label().at((4.5, 2.5)).label("FLOW_V HT/NT+Zwei", halign='center', fontsize=9)
     
     # Verbindung Z3 -> Z1 (vertikal)
     d += elm.Line().at(z3.end).to(z1.start)
     
     # Reihe 3: FLOW_H Eintarif
-    z5 = Zaehler(bezeichnung="Z5", pfeil=ZaehlerPfeil.ARROW_IN, flow=ZaehlerFlow.FLOW_H, debug=True)
+    z5 = Zaehler(bezeichnung="Z5", pfeil=ZaehlerPfeil.ARROW_IN, flow=ComponentFlow.FLOW_H, debug=True)
     d += z5.at((1.5, 1.5))
     d += elm.Label().at((1.5, 0.5)).label("FLOW_H Ein", halign='center', fontsize=9)
     
-    z6 = Zaehler(bezeichnung="Z6", pfeil=ZaehlerPfeil.ARROW_BOTH, flow=ZaehlerFlow.FLOW_H, tarif=ZaehlerTarif.TARIF_ZWEI, debug=True)
+    z6 = Zaehler(bezeichnung="Z6", pfeil=ZaehlerPfeil.ARROW_BOTH, flow=ComponentFlow.FLOW_H, tarif=ZaehlerTarif.TARIF_ZWEI, debug=True)
     d += z6.at((4.5, 1.5))
     d += elm.Label().at((4.5, 0.5)).label("FLOW_H HT/NT+Zwei", halign='center', fontsize=9)
     
@@ -316,7 +311,7 @@ if __name__ == "__main__":
     d += elm.Label().at((doc_x+0.2, doc_y_start-1.4)).label("• ARROW_IN - Pfeil nach oben (↑)", fontsize=9, loc='right')
     d += elm.Label().at((doc_x+0.2, doc_y_start-1.7)).label("• ARROW_OUT - Pfeil nach unten (↓)", fontsize=9, loc='right')
     d += elm.Label().at((doc_x+0.2, doc_y_start-2.0)).label("• ARROW_BOTH - beide Pfeile (↑↓)", fontsize=9, loc='right')
-    d += elm.Label().at((doc_x, doc_y_start-2.5)).label("ZaehlerFlow:", fontsize=10, loc='right')
+    d += elm.Label().at((doc_x, doc_y_start-2.5)).label("ComponentFlow:", fontsize=10, loc='right')
     d += elm.Label().at((doc_x+0.2, doc_y_start-2.8)).label("• FLOW_V - vertikale Anschlüsse", fontsize=9, loc='right')
     d += elm.Label().at((doc_x+0.2, doc_y_start-3.1)).label("• FLOW_H - horizontale Anschlüsse", fontsize=9, loc='right')
     d += elm.Label().at((doc_x, doc_y_start-3.6)).label("ZaehlerTarif:", fontsize=10, loc='right')

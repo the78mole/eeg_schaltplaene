@@ -11,7 +11,8 @@ from schaltplaene.komponenten.erdung import Erdung
 from schaltplaene.komponenten.netz import Netz
 from schaltplaene.komponenten.schmelzsicherung import Schmelzsicherung
 from schaltplaene.komponenten.leitungsschutzschalter import Leitungsschutzschalter
-from schaltplaene.komponenten.zaehler import Zaehler, ZaehlerPfeil, ZaehlerFlow
+from schaltplaene.komponenten.zaehler import Zaehler, ZaehlerPfeil
+from schaltplaene.komponenten import ComponentFlow
 from schaltplaene.komponenten.schalter import Schalter
 from schaltplaene.komponenten.enums import ComponentFlow
 from schaltplaene.komponenten.verbrauch import Verbrauch
@@ -84,7 +85,7 @@ d += (zaehler1 := Zaehler(
     bezeichnung="P1",
     info="1EMH00xxx",
     pfeil=ZaehlerPfeil.ARROW_BOTH,
-    flow=ZaehlerFlow.FLOW_V
+    flow=ComponentFlow.FLOW_V
 ).at((3, netz_pos[1] + 6)))
 
 # Verbindung nach oben
@@ -95,7 +96,7 @@ d += (zaehler2 := Zaehler(
     bezeichnung="P2",
     info="EMS SmartMeter",
     pfeil=ZaehlerPfeil.ARROW_BOTH,
-    flow=ZaehlerFlow.FLOW_V
+    flow=ComponentFlow.FLOW_V
 ).at((3, netz_pos[1] + 8)))
 
 # Verbindung nach oben

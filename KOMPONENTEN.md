@@ -17,19 +17,19 @@ Energiezähler mit verschiedenen Pfeilvarianten für Bezug, Einspeisung oder bid
 - `info`: Zusatzinformation wie Zählernummer (z.B. "1EMH00xxx")
 - `einheit`: Einheit (Standard: "kWh")
 - `pfeil`: Pfeilrichtung (`ZaehlerPfeil.ARROW_NONE`, `ARROW_IN`, `ARROW_OUT`, `ARROW_BOTH`)
-- `flow`: Durchflussrichtung (`ZaehlerFlow.FLOW_V` = vertikal, `FLOW_H` = horizontal)
+- `flow`: Durchflussrichtung (`ComponentFlow.FLOW_V` = vertikal, `FLOW_H` = horizontal)
 - `tarif`: Tarifanzeige (`ZaehlerTarif.TARIF_NONE`, `TARIF_HT`, `TARIF_NT`, `TARIF_HT_NT`)
 - `label_loc`: Beschriftungsposition ('N', 'S', 'E', 'W', 'NE', 'NO', 'NW', 'SE', 'SO', 'SW')
 
 **Beispiel:**
 ```python
-from schaltplaene.komponenten import Zaehler, ZaehlerPfeil, ZaehlerFlow
+from schaltplaene.komponenten import Zaehler, ZaehlerPfeil, ComponentFlow
 
 z = Zaehler(
     bezeichnung="P1",
     info="1EMH00xxx",
     pfeil=ZaehlerPfeil.ARROW_BOTH,
-    flow=ZaehlerFlow.FLOW_V
+    flow=ComponentFlow.FLOW_V
 )
 ```
 

@@ -16,7 +16,8 @@ from schaltplaene.komponenten.erdung import Erdung
 from schaltplaene.komponenten.netz import Netz
 from schaltplaene.komponenten.schmelzsicherung import Schmelzsicherung
 from schaltplaene.komponenten.leitungsschutzschalter import Leitungsschutzschalter
-from schaltplaene.komponenten.zaehler import Zaehler, ZaehlerPfeil, ZaehlerFlow
+from schaltplaene.komponenten.zaehler import Zaehler, ZaehlerPfeil
+from schaltplaene.komponenten import ComponentFlow
 from schaltplaene.komponenten.schalter import Schalter
 from schaltplaene.komponenten.enums import ComponentFlow
 from schaltplaene.komponenten.verbrauch import Verbrauch
@@ -129,7 +130,7 @@ class PvSpeicherSystemUeberschuss:
             bezeichnung="P1",
             info=self.z1_zaehler_nr,
             pfeil=ZaehlerPfeil.ARROW_BOTH,
-            flow=ZaehlerFlow.FLOW_V
+            flow=ComponentFlow.FLOW_V
         ).at((3, netz_pos[1] + 6)))
         
         # 5. Zweirichtungszähler 2 (P2 - Speichersystem)
@@ -137,7 +138,7 @@ class PvSpeicherSystemUeberschuss:
             bezeichnung="P2",
             info="EMS SmartMeter",
             pfeil=ZaehlerPfeil.ARROW_BOTH,
-            flow=ZaehlerFlow.FLOW_V
+            flow=ComponentFlow.FLOW_V
         ).at((3, netz_pos[1] + 8)))
         
         # 6. Schalter (Netztrennung Q1)
