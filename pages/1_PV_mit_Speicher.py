@@ -10,17 +10,23 @@ from pathlib import Path
 
 from schaltplaene.templates.pv_speicher_system_ueberschuss import PvSpeicherSystemUeberschuss
 
-st.set_page_config(
-    page_title="PV-Anlage mit Speicher",
-    page_icon="🔋",
-    layout="wide"
-)
-
 st.title("🔋 PV-Anlage mit Speicher")
 st.markdown("Generieren Sie einen Schaltplan für eine PV-Anlage mit Batteriespeicher.")
 
 # Sidebar für Parameter
 st.sidebar.header("⚙️ Parameter")
+
+st.sidebar.subheader("Schaltplan")
+titel = st.sidebar.text_input(
+    "Titel des Schaltplans",
+    value="PV-Anlage mit Speicher und Netzanschluss",
+    help="Text, der als Titel auf dem Schaltplan angezeigt wird"
+)
+
+# Generiere/Aktualisiere Button
+generate_clicked = st.sidebar.button("🔄 Schaltplan aktualisieren", type="primary", use_container_width=True)
+
+st.sidebar.markdown("---")
 
 st.sidebar.subheader("Netzanschluss")
 f1_nennstrom = st.sidebar.number_input(
@@ -113,15 +119,11 @@ hausverbrauch_kw = st.sidebar.number_input(
     help="Typischer Hausverbrauch"
 )
 
-st.sidebar.subheader("Schaltplan")
-titel = st.sidebar.text_input(
-    "Titel des Schaltplans",
-    value="PV-Anlage mit Speicher und Netzanschluss",
-    help="Text, der als Titel auf dem Schaltplan angezeigt wird"
-)
+# Auto-Generierung beim ersten Laden oder bei Button-Klick
+if 'generated_mit_speicher' not in st.session_state:
+    st.session_state['generated_mit_speicher'] = False
 
-# Generiere Button
-if st.sidebar.button("🔄 Schaltplan generieren", type="primary"):
+if generate_clicked or not st.session_state['generated_mit_speicher']:
     with st.spinner("Generiere Schaltplan..."):
         try:
             # Template erstellen
@@ -149,16 +151,16 @@ if st.sidebar.button("🔄 Schaltplan generieren", type="primary"):
             # In Session State speichern
             st.session_state['svg_data'] = svg_data
             st.session_state['png_data'] = png_data
-            st.session_state['generated'] = True
+            st.session_state['generated_mit_speicher'] = True
             
             st.success("✅ Schaltplan erfolgreich generiert!")
             
         except Exception as e:
             st.error(f"❌ Fehler beim Generieren: {str(e)}")
-            st.session_state['generated'] = False
+            st.session_state['generated_mit_speicher'] = False
 
 # Anzeige des generierten Schaltplans
-if st.session_state.get('generated', False):
+if st.session_state.get('generated_mit_speicher', False):
     col1, col2 = st.columns([3, 1])
     
     with col1:

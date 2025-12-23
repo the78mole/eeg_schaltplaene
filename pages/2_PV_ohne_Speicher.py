@@ -10,17 +10,23 @@ from pathlib import Path
 
 from schaltplaene.templates.pv_system_ueberschuss import PvSystemUeberschuss
 
-st.set_page_config(
-    page_title="PV-Anlage ohne Speicher",
-    page_icon="☀️",
-    layout="wide"
-)
-
 st.title("☀️ PV-Anlage ohne Speicher")
 st.markdown("Generieren Sie einen Schaltplan für eine PV-Anlage mit Überschusseinspeisung (ohne Batteriespeicher).")
 
 # Sidebar für Parameter
 st.sidebar.header("⚙️ Parameter")
+
+st.sidebar.subheader("Schaltplan")
+titel = st.sidebar.text_input(
+    "Titel des Schaltplans",
+    value="PV-Anlage ohne Speicher - Überschusseinspeisung",
+    help="Text, der als Titel auf dem Schaltplan angezeigt wird"
+)
+
+# Generiere/Aktualisiere Button
+generate_clicked = st.sidebar.button("🔄 Schaltplan aktualisieren", type="primary", use_container_width=True)
+
+st.sidebar.markdown("---")
 
 st.sidebar.subheader("Netzanschluss")
 f1_nennstrom = st.sidebar.number_input(
@@ -94,15 +100,11 @@ hausverbrauch_kw = st.sidebar.number_input(
     help="Typischer Hausverbrauch"
 )
 
-st.sidebar.subheader("Schaltplan")
-titel = st.sidebar.text_input(
-    "Titel des Schaltplans",
-    value="PV-Anlage ohne Speicher - Überschusseinspeisung",
-    help="Text, der als Titel auf dem Schaltplan angezeigt wird"
-)
+# Auto-Generierung beim ersten Laden oder bei Button-Klick
+if 'generated_ohne_speicher' not in st.session_state:
+    st.session_state['generated_ohne_speicher'] = False
 
-# Generiere Button
-if st.sidebar.button("🔄 Schaltplan generieren", type="primary"):
+if generate_clicked or not st.session_state['generated_ohne_speicher']:
     with st.spinner("Generiere Schaltplan..."):
         try:
             # Template erstellen
@@ -126,24 +128,24 @@ if st.sidebar.button("🔄 Schaltplan generieren", type="primary"):
             png_data = drawing.get_imagedata('png')
             
             # In Session State speichern
-            st.session_state['svg_data'] = svg_data
-            st.session_state['png_data'] = png_data
-            st.session_state['generated'] = True
+            st.session_state['svg_data_ohne'] = svg_data
+            st.session_state['png_data_ohne'] = png_data
+            st.session_state['generated_ohne_speicher'] = True
             
             st.success("✅ Schaltplan erfolgreich generiert!")
             
         except Exception as e:
             st.error(f"❌ Fehler beim Generieren: {str(e)}")
-            st.session_state['generated'] = False
+            st.session_state['generated_ohne_speicher'] = False
 
 # Anzeige des generierten Schaltplans
-if st.session_state.get('generated', False):
+if st.session_state.get('generated_ohne_speicher', False):
     col1, col2 = st.columns([3, 1])
     
     with col1:
         st.subheader("📊 Vorschau")
         # SVG als HTML anzeigen für beste Qualität
-        svg_str = st.session_state['svg_data'].decode('utf-8')
+        svg_str = st.session_state['svg_data_ohne'].decode('utf-8')
         components.html(f'<div style="width:100%; overflow:auto;">{svg_str}</div>', height=1400, scrolling=False)
     
     with col2:
@@ -152,7 +154,7 @@ if st.session_state.get('generated', False):
         # SVG Download
         st.download_button(
             label="⬇️ SVG herunterladen",
-            data=st.session_state['svg_data'],
+            data=st.session_state['svg_data_ohne'],
             file_name=f"pv_system_{wechselrichter_kw}kW.svg",
             mime="image/svg+xml",
             use_container_width=True
@@ -161,7 +163,7 @@ if st.session_state.get('generated', False):
         # PNG Download
         st.download_button(
             label="⬇️ PNG herunterladen",
-            data=st.session_state['png_data'],
+            data=st.session_state['png_data_ohne'],
             file_name=f"pv_system_{wechselrichter_kw}kW.png",
             mime="image/png",
             use_container_width=True

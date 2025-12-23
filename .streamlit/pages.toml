@@ -1,14 +1,14 @@
 [[pages]]
-path = "app.py"
+path = "app"
 name = "Start"
 icon = "🏠"
 
 [[pages]]
-path = "pages/1_PV_mit_Speicher.py"
+path = "pages/1_PV_mit_Speicher"
 name = "PV mit Speicher"
 icon = "🔋"
 
 [[pages]]
-path = "pages/2_PV_ohne_Speicher.py"
+path = "pages/2_PV_ohne_Speicher"
 name = "PV ohne Speicher"
 icon = "☀️"
