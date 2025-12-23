@@ -92,6 +92,13 @@ hausverbrauch_kw = st.sidebar.number_input(
     help="Typischer Hausverbrauch"
 )
 
+st.sidebar.subheader("Schaltplan")
+titel = st.sidebar.text_input(
+    "Titel des Schaltplans",
+    value="PV-Anlage ohne Speicher - Überschusseinspeisung",
+    help="Text, der als Titel auf dem Schaltplan angezeigt wird"
+)
+
 # Generiere Button
 if st.sidebar.button("🔄 Schaltplan generieren", type="primary"):
     with st.spinner("Generiere Schaltplan..."):
@@ -108,7 +115,7 @@ if st.sidebar.button("🔄 Schaltplan generieren", type="primary"):
             )
             
             # Schaltplan erstellen
-            drawing = template.erstelle_schaltplan()
+            drawing = template.erstelle_schaltplan(titel=titel)
             
             # SVG generieren
             svg_data = drawing.get_imagedata('svg')
